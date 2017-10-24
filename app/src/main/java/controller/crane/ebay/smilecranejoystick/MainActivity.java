@@ -7,11 +7,18 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import ioio.lib.api.DigitalOutput;
+import ioio.lib.api.exception.ConnectionLostException;
+import ioio.lib.util.BaseIOIOLooper;
+import ioio.lib.util.IOIOLooper;
+import ioio.lib.util.android.IOIOActivity;
 
 enum CRANE_STATUE {
-    IDLE, UP, DOWN, LEFT, RIGHT, ZUP, ZDOWN
+    IDLE, COIN, UP, DOWN, LEFT, RIGHT, ZUP, ZDOWN
 }
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends IOIOActivity {
 
     public static CRANE_STATUE STATUS = CRANE_STATUE.IDLE;
     @Override
@@ -83,5 +90,85 @@ public class MainActivity extends AppCompatActivity {
         MainActivity.STATUS = status;
         ((TextView)findViewById(R.id.status_text)).setText(MainActivity.STATUS.toString());
         Log.d("STATUS", MainActivity.STATUS.toString());
+    }
+
+    private  void showToast(String message){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+
+    class Looper extends BaseIOIOLooper {
+        private DigitalOutput coin, up, down, left, right, zup, zdown;
+        private DigitalOutput led;
+
+        @Override
+        protected void setup() throws ConnectionLostException {
+            led = ioio_.openDigitalOutput(0, true);
+            coin = ioio_.openDigitalOutput(40, false);
+            up = ioio_.openDigitalOutput(41, false);
+            down = ioio_.openDigitalOutput(42, false);
+            left = ioio_.openDigitalOutput(43, false);
+            right = ioio_.openDigitalOutput(44, false);
+            zup = ioio_.openDigitalOutput(45, false);
+            zdown = ioio_.openDigitalOutput(46, false);
+        }
+
+        @Override
+        public void loop() throws ConnectionLostException {
+            Log.d("status", ""+MainActivity.STATUS.toString());
+            showToast("status"+MainActivity.STATUS.toString());
+
+            switch(MainActivity.STATUS){
+                case IDLE:
+                    turnOn(false, false, false, false, false, false, false);
+                    break;
+                case COIN:
+                    turnOn(true, false, false, false, false, false, false);
+                    break;
+                case UP:
+                    turnOn(false, true, false, false, false, false, false);
+                    break;
+                case DOWN:
+                    turnOn(false, false, true, false, false, false, false);
+                    break;
+                case LEFT:
+                    turnOn(false, false, false, true, false, false, false);
+                    break;
+                case RIGHT:
+                    turnOn(false, false, false, false, true, false, false);
+                    break;
+                case ZUP:
+                    turnOn(false, false, false, false, false, true, false);
+                    break;
+                case ZDOWN:
+                    turnOn(false, false, false, false, false, false, true);
+                    break;
+            }
+
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+            }
+        }
+
+        private void turnOn(boolean coinOn, boolean upOn, boolean downOn, boolean leftOn, boolean rightOn, boolean zupOn, boolean zdownOn){
+            try {
+                led.write(false);
+                coin.write(coinOn);
+                up.write(upOn);
+                down.write(downOn);
+                left.write(leftOn);
+                right.write(rightOn);
+                zup.write(zupOn);
+                zdown.write(zdownOn);
+            } catch (ConnectionLostException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    protected IOIOLooper createIOIOLooper() {
+        return new Looper();
     }
 }
