@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="controller.crane.ebay.smilecranejoystick.MainActivity"
+    tools:layout_editor_absoluteY="81dp"
+    tools:layout_editor_absoluteX="0dp">
+
+    <Button
+        android:id="@+id/left"
+        android:layout_width="98dp"
+        android:layout_height="98dp"
+        android:layout_marginStart="51dp"
+        android:background="@drawable/left"
+        tools:text="LEFT"
+        app:layout_constraintBaseline_toBaselineOf="@+id/idle"
+        tools:layout_constraintBaseline_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="51dp"
+        app:layout_constraintRight_toLeftOf="@+id/idle" />
+
+    <Button
+        android:id="@+id/idle"
+        android:layout_width="0dp"
+        android:layout_height="98dp"
+        android:background="@drawable/idle"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="@+id/up"
+        app:layout_constraintRight_toRightOf="@+id/up"
+        app:layout_constraintTop_toBottomOf="@+id/up"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1" />
+
+    <Button
+        android:id="@+id/down"
+        android:layout_width="98dp"
+        android:layout_height="98dp"
+        android:background="@drawable/down"
+        tools:text="DOWN"
+        tools:layout_constraintTop_creator="1"
+        app:layout_constraintTop_toBottomOf="@+id/idle"
+        app:layout_constraintLeft_toLeftOf="@+id/idle" />
+
+    <Button
+        android:id="@+id/zup"
+        android:layout_width="98dp"
+        android:layout_height="98dp"
+        android:layout_marginLeft="65dp"
+        android:layout_marginTop="157dp"
+        android:background="@drawable/zup"
+        app:layout_constraintLeft_toLeftOf="@+id/idle"
+        app:layout_constraintTop_toBottomOf="@+id/idle"
+        tools:layout_constraintTop_creator="1"
+        tools:text="zup"
+        android:layout_marginStart="65dp" />
+
+    <Button
+        android:id="@+id/zdown"
+        android:layout_width="98dp"
+        android:layout_height="98dp"
+        android:layout_marginRight="9dp"
+        android:background="@drawable/zdown"
+        app:layout_constraintRight_toLeftOf="@+id/zup"
+        tools:text="ZDOWN"
+        android:layout_marginEnd="9dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/zup"
+        tools:layout_constraintBaseline_creator="1" />
+
+    <Button
+        android:id="@+id/right"
+        android:layout_width="98dp"
+        android:layout_height="98dp"
+        android:background="@drawable/right"
+        tools:text="RIGHT"
+        app:layout_constraintLeft_toRightOf="@+id/idle"
+        app:layout_constraintBaseline_toBaselineOf="@+id/left" />
+
+    <Button
+        android:id="@+id/up"
+        android:layout_width="98dp"
+        android:layout_height="98dp"
+        android:layout_marginTop="1dp"
+        android:background="@drawable/up"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1"
+        tools:text="UP" />
+
+    <TextView
+        android:id="@+id/status_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="73dp"
+        android:layout_marginStart="74dp"
+        android:layout_marginTop="17dp"
+        android:text="STATUS"
+        app:layout_constraintHorizontal_bias="0.462"
+        app:layout_constraintLeft_toLeftOf="@+id/zdown"
+        app:layout_constraintRight_toRightOf="@+id/zup"
+        app:layout_constraintTop_toBottomOf="@+id/zdown"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1" />
+
+</android.support.constraint.ConstraintLayout>
