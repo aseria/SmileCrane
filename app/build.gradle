@@ -26,5 +26,9 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.github.ytai.ioio:IOIOLibAndroid:5.07'
+    compile 'com.github.ytai.ioio:IOIOLibAndroidBluetooth:5.07'
+    compile 'com.github.ytai.ioio:IOIOLibAndroidAccessory:5.07'
+    compile 'com.github.ytai.ioio:IOIOLibAndroidDevice:5.07'
     testCompile 'junit:junit:4.12'
 }
