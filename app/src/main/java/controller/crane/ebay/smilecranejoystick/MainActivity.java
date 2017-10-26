@@ -1,5 +1,6 @@
 package controller.crane.ebay.smilecranejoystick;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import ioio.lib.api.DigitalOutput;
+import ioio.lib.api.IOIO;
+import ioio.lib.api.IOIO.VersionType;
 import ioio.lib.api.exception.ConnectionLostException;
 import ioio.lib.util.BaseIOIOLooper;
 import ioio.lib.util.IOIOLooper;
@@ -92,10 +95,6 @@ public class MainActivity extends IOIOActivity {
         Log.d("STATUS", MainActivity.STATUS.toString());
     }
 
-    private  void showToast(String message){
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
-
 
     class Looper extends BaseIOIOLooper {
         private DigitalOutput coin, up, down, left, right, zup, zdown;
@@ -103,6 +102,8 @@ public class MainActivity extends IOIOActivity {
 
         @Override
         protected void setup() throws ConnectionLostException {
+            showVersions(ioio_, "IOIO connected!");
+
             led = ioio_.openDigitalOutput(0, true);
             coin = ioio_.openDigitalOutput(40, false);
             up = ioio_.openDigitalOutput(41, false);
@@ -115,45 +116,47 @@ public class MainActivity extends IOIOActivity {
 
         @Override
         public void loop() throws ConnectionLostException {
-            Log.d("status", ""+MainActivity.STATUS.toString());
-            showToast("status"+MainActivity.STATUS.toString());
-
             switch(MainActivity.STATUS){
                 case IDLE:
-                    turnOn(false, false, false, false, false, false, false);
+                    turnOn(false, false, false, false, false, false, false, false);
                     break;
                 case COIN:
-                    turnOn(true, false, false, false, false, false, false);
+                    turnOn(true, true, false, false, false, false, false, false);
                     break;
                 case UP:
-                    turnOn(false, true, false, false, false, false, false);
+                    turnOn(true, false, true, false, false, false, false, false);
                     break;
                 case DOWN:
-                    turnOn(false, false, true, false, false, false, false);
+                    turnOn(true, false, false, true, false, false, false, false);
                     break;
                 case LEFT:
-                    turnOn(false, false, false, true, false, false, false);
+                    turnOn(true, false, false, false, true, false, false, false);
                     break;
                 case RIGHT:
-                    turnOn(false, false, false, false, true, false, false);
+                    turnOn(true, false, false, false, false, true, false, false);
                     break;
                 case ZUP:
-                    turnOn(false, false, false, false, false, true, false);
+                    turnOn(true, false, false, false, false, false, true, false);
                     break;
                 case ZDOWN:
-                    turnOn(false, false, false, false, false, false, true);
+                    turnOn(true, false, false, false, false, false, false, true);
                     break;
             }
 
             try {
-                Thread.sleep(5000);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
             }
         }
 
-        private void turnOn(boolean coinOn, boolean upOn, boolean downOn, boolean leftOn, boolean rightOn, boolean zupOn, boolean zdownOn){
+        @Override
+        public void disconnected() {
+            toast("IOIO disconnected");
+        }
+
+        private void turnOn(boolean ledOn, boolean coinOn, boolean upOn, boolean downOn, boolean leftOn, boolean rightOn, boolean zupOn, boolean zdownOn){
             try {
-                led.write(false);
+                led.write(ledOn);
                 coin.write(coinOn);
                 up.write(upOn);
                 down.write(downOn);
@@ -170,5 +173,28 @@ public class MainActivity extends IOIOActivity {
     @Override
     protected IOIOLooper createIOIOLooper() {
         return new Looper();
+    }
+
+    private void showVersions(IOIO ioio, String title) {
+        toast(String.format("%s\n" +
+                        "IOIOLib: %s\n" +
+                        "Application firmware: %s\n" +
+                        "Bootloader firmware: %s\n" +
+                        "Hardware: %s",
+                title,
+                ioio.getImplVersion(VersionType.IOIOLIB_VER),
+                ioio.getImplVersion(VersionType.APP_FIRMWARE_VER),
+                ioio.getImplVersion(VersionType.BOOTLOADER_VER),
+                ioio.getImplVersion(VersionType.HARDWARE_VER)));
+    }
+
+    private void toast(final String message) {
+        final Context context = this;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
