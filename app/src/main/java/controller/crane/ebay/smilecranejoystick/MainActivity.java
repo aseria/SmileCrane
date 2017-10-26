@@ -8,12 +8,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-enum CRANE_STATUE {
-    IDLE, UP, DOWN, LEFT, RIGHT, ZUP, ZDOWN
-}
-public class MainActivity extends AppCompatActivity {
+import controller.crane.ebay.smilecranejoystick.status.CRANE_STATUS;
+import controller.crane.ebay.smilecranejoystick.status.StatusUpdateThread;
 
-    public static CRANE_STATUE STATUS = CRANE_STATUE.IDLE;
+
+public class MainActivity extends AppCompatActivity {
+    boolean isRunning = true;
+    public static CRANE_STATUS STATUS = CRANE_STATUS.IDLE;
+
+    private StatusUpdateThread statusUpdateThread;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +30,19 @@ public class MainActivity extends AppCompatActivity {
         ((Button)findViewById(R.id.zup)).setOnTouchListener(buttonListener);
         ((Button)findViewById(R.id.zdown)).setOnTouchListener(buttonListener);
 
+        this.statusUpdateThread = new StatusUpdateThread(this);
+        this.statusUpdateThread.start();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.isRunning = false;
+    }
+
+    public boolean isRunning() {
+        return isRunning;
     }
 
     private View.OnTouchListener buttonListener = new View.OnTouchListener() {
@@ -69,17 +85,17 @@ public class MainActivity extends AppCompatActivity {
     };
 
     //button click listener
-    void onIDLE() { onTouchButton(CRANE_STATUE.IDLE);}
-    void onUP() { onTouchButton(CRANE_STATUE.UP);}
-    void onDOWN() { onTouchButton(CRANE_STATUE.DOWN);}
-    void onLEFT() { onTouchButton(CRANE_STATUE.LEFT);}
-    void onRIGHT() { onTouchButton(CRANE_STATUE.RIGHT);}
-    void onZUP() { onTouchButton(CRANE_STATUE.ZUP);}
-    void onZDOWN() { onTouchButton(CRANE_STATUE.ZDOWN);}
+    void onIDLE() { onTouchButton(CRANE_STATUS.IDLE);}
+    void onUP() { onTouchButton(CRANE_STATUS.UP);}
+    void onDOWN() { onTouchButton(CRANE_STATUS.DOWN);}
+    void onLEFT() { onTouchButton(CRANE_STATUS.LEFT);}
+    void onRIGHT() { onTouchButton(CRANE_STATUS.RIGHT);}
+    void onZUP() { onTouchButton(CRANE_STATUS.ZUP);}
+    void onZDOWN() { onTouchButton(CRANE_STATUS.ZDOWN);}
 
 
 
-    private void onTouchButton(CRANE_STATUE status) {
+    private void onTouchButton(CRANE_STATUS status) {
         MainActivity.STATUS = status;
         ((TextView)findViewById(R.id.status_text)).setText(MainActivity.STATUS.toString());
         Log.d("STATUS", MainActivity.STATUS.toString());
