@@ -50,7 +50,7 @@ public class StatusUpdateThread extends Thread {
             try {
 
                 Thread.sleep(100); //10fps
-                String ip = "http://192.168.1.117";//http://192.168.61.140";
+                String ip = "http://192.168.1.114";//http://192.168.61.140";
                 String port = "5555";
                 String url = ip + ":" + port + "/" + "get_status";
 

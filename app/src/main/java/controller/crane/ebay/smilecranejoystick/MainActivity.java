@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         ((Button)findViewById(R.id.idle)).setOnTouchListener(buttonListener);
         ((Button)findViewById(R.id.zup)).setOnTouchListener(buttonListener);
         ((Button)findViewById(R.id.zdown)).setOnTouchListener(buttonListener);
+        ((Button)findViewById(R.id.coin)).setOnTouchListener(buttonListener);
 
         this.statusUpdateThread = new StatusUpdateThread(this);
         this.statusUpdateThread.start();
@@ -73,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
                         case R.id.zdown:
                             onZDOWN();
                             break;
+                        case R.id.coin:
+                            onCOIN();
+                            break;
                     }
                     return true; // if you want to handle the touch event
                 case MotionEvent.ACTION_UP:
@@ -92,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
     void onRIGHT() { onTouchButton(CRANE_STATUS.RIGHT);}
     void onZUP() { onTouchButton(CRANE_STATUS.ZUP);}
     void onZDOWN() { onTouchButton(CRANE_STATUS.ZDOWN);}
+    void onCOIN() { onTouchEvent(CRANE_STATUS.COIN;)}
 
 
 
