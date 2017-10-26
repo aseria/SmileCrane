@@ -5,5 +5,5 @@ package controller.crane.ebay.smilecranejoystick.status;
  */
 
 public enum CRANE_STATUS {
-    IDLE, UP, DOWN, LEFT, RIGHT, ZUP, ZDOWN
+    IDLE, COIN, UP, DOWN, LEFT, RIGHT, ZUP, ZDOWN
 }

@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
     void onRIGHT() { onTouchButton(CRANE_STATUS.RIGHT);}
     void onZUP() { onTouchButton(CRANE_STATUS.ZUP);}
     void onZDOWN() { onTouchButton(CRANE_STATUS.ZDOWN);}
-    void onCOIN() { onTouchEvent(CRANE_STATUS.COIN;)}
+    void onCOIN() { onTouchButton(CRANE_STATUS.COIN);}
 
 
 
