@@ -46,6 +46,7 @@ public class StatusUpdateThread extends Thread {
     @Override
     public void run() {
 //        super.run();
+        HttpURLConnection urlConnection = null;
         while(mainActivity.isRunning()) {
             try {
 
@@ -55,7 +56,7 @@ public class StatusUpdateThread extends Thread {
                 String url = ip + ":" + port + "/" + "get_status";
 
                 URL requestUrl = new URL(url);
-                HttpURLConnection urlConnection = (HttpURLConnection) requestUrl.openConnection();
+                urlConnection = (HttpURLConnection) requestUrl.openConnection();
                 urlConnection.connect(); //Connect
                 InputStream in = new BufferedInputStream(urlConnection.getInputStream());
                 BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -69,8 +70,13 @@ public class StatusUpdateThread extends Thread {
                     Log.d("GET_STATUS", "STATUS is changed to " + crane_status);
                     currentStatus = crane_status;
                 }
+                urlConnection.disconnect();
             } catch (Exception e) {
                 Log.e("GET_STATUS", "EXCEPTION : " + e.getMessage());
+            } finally {
+                if(urlConnection != null) {
+                    urlConnection.disconnect();
+                }
             }
         }
     }

@@ -20,7 +20,7 @@ import controller.crane.ebay.smilecranejoystick.status.CRANE_STATUS;
 import controller.crane.ebay.smilecranejoystick.status.StatusUpdateThread;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends IOIOActivity {
     boolean isRunning = true;
     public static CRANE_STATUS STATUS = CRANE_STATUS.IDLE;
 
